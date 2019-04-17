@@ -1,0 +1,21 @@
+{
+  "name": "email-demo",
+  "version": "1.0.0",
+  "description": "邮件发送demo。",
+  "main": "config.js",
+  "dependencies": {
+    "nodemailer": "^4.6.8",
+    "nodemailer-smtp-transport": "^2.7.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitee.com/xiaomiquan/email-demo.git"
+  },
+  "author": "",
+  "license": "ISC"
+}
