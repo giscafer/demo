@@ -7,7 +7,12 @@ import routeMap from './routeMap';
 const routeKeys = Object.keys(routeMap);
 
 const styles = {
-  listStyle: { listStyle: 'none' },
+  listStyle: {
+    listStyle: 'none',
+    paddingTop: '8px',
+    paddingBottom: '8px',
+    textAlgin: 'left',
+  },
 };
 
 class App extends React.PureComponent {
@@ -51,7 +56,7 @@ class App extends React.PureComponent {
         </header>
         <div className='main'>
           <div className='side-nav'>
-            <ul>
+            <ul style={{ textAlign: 'right' }}>
               {routeKeys.map((key) => (
                 <li
                   key={key}
