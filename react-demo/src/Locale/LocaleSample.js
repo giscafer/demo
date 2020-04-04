@@ -4,9 +4,8 @@
  * @description: Context API demo
  */
 
-
-
 import React, { Component } from 'react';
+import './LocaleSample.css';
 
 const enStrings = {
   submit: 'Submit',
