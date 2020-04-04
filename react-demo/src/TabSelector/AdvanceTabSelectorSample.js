@@ -47,7 +47,7 @@ export default class AdvanceTabSelectorSample extends Component {
           >
             {(animal) => (
               <div>
-                <img width='100px' src={require(`../images/${animal}.png`)} />
+                <img width='100px' src={require(`../../images/${animal}.png`)} />
               </div>
             )}
           </TabSelector>
