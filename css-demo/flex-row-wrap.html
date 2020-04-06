@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flex Demo</title>
+    <style>
+      .row {
+        display: flex;
+        flex: 1;
+        width: 1000px;
+        margin: 0 auto;
+        align-items: flex-start;
+      }
+      .row > div {
+        display: flex;
+        align-items: center;
+      }
+      .row-wrap {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .item {
+        min-width: 150px;
+        height: 200px;
+        background-color: blueviolet;
+        margin: 10px 8px;
+        color: #fff;
+        font-size: 28px;
+        text-align: center;
+        line-height: 200px;
+      }
+      .right-arrow {
+        width: 0;
+        height: 0;
+        border: 12px solid;
+        margin: 0 2px 0 14px;
+        border-color: transparent transparent transparent #111;
+      }
+      .left-arrow {
+        width: 0;
+        height: 0;
+        border: 12px solid;
+        margin: 0 14px 0 2px;
+        border-color: transparent #111 transparent transparent;
+      }
+      .arrow-down {
+        width: 0;
+        height: 0;
+        border: 12px solid;
+        margin: 14px 0 2px;
+        border-color: #111 transparent transparent;
+      }
+
+      .list div.row:nth-child(even) {
+        flex-direction: row-reverse;
+        /* justify-content: flex-end; */
+      }
+      div.row:last-child {
+        justify-content: flex-start;
+      }
+    </style>
+  </head>
+  <body>
+    <h3>Flex 布局</h3>
+
+    <div class="list">
+      <div class="row">
+        <div>
+          <div class="item">1</div>
+          <span class="right-arrow"></span>
+        </div>
+        <div>
+          <div class="item">2</div>
+          <span class="right-arrow"></span>
+        </div>
+        <div>
+          <div class="item">3</div>
+          <span class="right-arrow"></span>
+        </div>
+        <div>
+          <div class="item">4</div>
+          <span class="right-arrow"></span>
+        </div>
+        <div class="row-wrap">
+          <div class="item">5</div>
+          <span class="arrow-down"></span>
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <span class="left-arrow"></span>
+          <div class="item">6</div>
+        </div>
+        <div>
+          <span class="left-arrow"></span>
+          <div class="item">7</div>
+        </div>
+        <div>
+          <span class="left-arrow"></span>
+          <div class="item">8</div>
+        </div>
+        <div>
+          <span class="left-arrow"></span>
+          <div class="item">9</div>
+        </div>
+        <div class="row-wrap">
+          <div class="item">10</div>
+          <span class="arrow-down"></span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="row">
+          <div>
+            <div class="item">11</div>
+            <span class="right-arrow"></span>
+          </div>
+          <div>
+            <div class="item">12</div>
+            <!-- <span class="right-arrow"></span> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
