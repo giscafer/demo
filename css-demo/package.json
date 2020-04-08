@@ -1,0 +1,33 @@
+{
+  "name": "css-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "stylelint": "stylelint '**/*.scss'"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "stylelint": "^13.3.0",
+    "stylelint-config-standard": "^20.0.0",
+    "stylelint-scss": "^3.16.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "yarn run test:ci"
+    }
+  },
+  "lint-staged": {
+    "src/app/**/*.{css,scss}": [
+      "stylelint --syntax=scss",
+      "prettier --parser --write"
+    ],
+    "{src,test}/**/*.ts": [
+      "prettier --write --single-quote"
+    ],
+    "*.{js,css,md}": "prettier --write"
+  }
+}
