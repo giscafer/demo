@@ -6,6 +6,7 @@ import LocaleSample from './Locale/LocaleSample';
 import PureRedux from './PureRedux/PureRedux';
 import ConnectCounterSample from './Counter/Counter';
 import FetchRedditList from './ActionsDemo/FetchRedditList';
+import RouterSample from './RouterDemo/RouterSample';
 
 export default {
   'tab-selector': TabSelectorSample,
@@ -16,4 +17,5 @@ export default {
   'pure-redux': PureRedux,
   'react-redux-counter': ConnectCounterSample,
   'async-action-FetchRedditList': FetchRedditList,
+  'route-sample': RouterSample,
 };
