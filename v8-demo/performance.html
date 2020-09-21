@@ -1,0 +1,34 @@
+<html>
+  <head>
+    <title>Main指标</title>
+    <style>
+      .area {
+        border: 2px ridge;
+      }
+
+      .box {
+        background-color: rgba(106, 24, 238, 0.26);
+        height: 5em;
+        margin: 1em;
+        width: 5em;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h3>Main指标</h3>
+    <div class="area">
+      <div class="box"></div>
+    </div>
+    <br />
+    <script>
+      function createNewArea() {
+        let el = document.createElement('div');
+        el.setAttribute('class', 'area');
+        el.innerHTML = '<div class="box new"></div>';
+        document.body.append(el);
+      }
+      createNewArea();
+    </script>
+  </body>
+</html>

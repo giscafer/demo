@@ -1,0 +1,25 @@
+<html>
+  <head>
+    <title>Main指标——宏任务&微任务1</title>
+  </head>
+
+  <body>
+    <script>
+      let p = new Promise(function (resolve, reject) {
+        resolve('成功!');
+      });
+
+      p.then(function (successMessage) {
+        console.log('p! ' + successMessage);
+      });
+
+      let p1 = new Promise(function (resolve, reject) {
+        resolve('成功!');
+      });
+
+      p1.then(function (successMessage) {
+        console.log('p1! ' + successMessage);
+      });
+    </script>
+  </body>
+</html>
