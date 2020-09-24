@@ -1,0 +1,36 @@
+<html>
+  <head>
+    <title>重排（回流）</title>
+    <style>
+      .area {
+        border: 2px ridge;
+      }
+
+      .box {
+        background-color: rgba(106, 24, 238, 0.26);
+        height: 5em;
+        margin: 1em;
+        width: 5em;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h3>重排（回流）</h3>
+    <div class="area">
+      <div class="box"></div>
+      <button>设置宽度</button>
+    </div>
+    <br />
+    <script>
+      function setAreaWidth() {
+        let el = document.querySelector('.box');
+        el.style.width = '300px';
+      }
+
+      document.querySelector('button').addEventListener('click', function () {
+        setAreaWidth();
+      });
+    </script>
+  </body>
+</html>
