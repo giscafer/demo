@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>渐变色背景绘制虚线</title>
+    <style>
+      #grad1 {
+        width: 500px;
+        height: 2px;
+        background-image: linear-gradient(
+          to right,
+          red 0%,
+          red 50%,
+          transparent 50%
+        );
+        background-size: 12px 2px;
+        background-repeat: repeat-x;
+      }
+      #grad2 {
+        width: 2px;
+        height: 300px;
+        background-image: linear-gradient(
+          0deg,
+          red 0%,
+          red 50%,
+          transparent 50%
+        );
+        background-size: 2px 12px;
+        background-repeat: repeat-y;
+      }
+    </style>
+  </head>
+  <body>
+    <h3>线性渐变 - 对角</h3>
+    <p>横向</p>
+    <div id="grad1"></div>
+    <br /><br />
+    <p>纵向</p>
+    <div id="grad2"></div>
+  </body>
+</html>
