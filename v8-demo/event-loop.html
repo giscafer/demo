@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event-Loop</title>
+    <style>
+      h3 {
+        color: #fff;
+      }
+      .outer {
+        height: 300px;
+        width: 400px;
+        background-color: blue;
+      }
+      .inner {
+        height: 100px;
+        width: 200px;
+        background-color: green;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="outer">
+      <h3>outer</h3>
+      <div class="inner"><h3>inner</h3></div>
+    </div>
+  </body>
+  <script type="text/javascript">
+    var outer = document.querySelector('.outer');
+    var inner = document.querySelector('.inner');
+
+    function onClick(e) {
+      console.log(e.target.className);
+      console.log(e.currentTarget.className);
+
+      setTimeout(function () {
+        console.log('timeout');
+      });
+
+      new Promise(function (resolve) {
+        console.log('promise');
+        resolve();
+      }).then(function () {
+        console.log('resolve');
+      });
+      console.log('finish');
+    }
+
+    outer.addEventListener('click', onClick);
+    inner.addEventListener('click', onClick);
+    // 事件冒泡是微任务
+    // inner
+    // inner
+    // promise
+    // finish
+    // resolve
+    // inner
+    // outer
+    // promise
+    // finish
+    // timeout
+    // timeout
+  </script>
+</html>
