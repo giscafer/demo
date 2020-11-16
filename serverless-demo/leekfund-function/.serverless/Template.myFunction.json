@@ -1,0 +1,16 @@
+{
+  "deployed": {
+    "Name": "leekFundFunction",
+    "Runtime": "Nodejs8.9",
+    "Handler": "index.main_handler",
+    "MemorySize": 128,
+    "Timeout": 20,
+    "Region": "ap-guangzhou",
+    "Namespace": "default",
+    "Description": "本示例主要演示定时拨测 URL 列表中的地址，当拨测失败时，通过邮件发送告警",
+    "layers": []
+  },
+  "codeHash": "20495ae5816276c05c16cb8a42129833",
+  "Bucket": "sls-cloudfunction-ap-guangzhou-code",
+  "Key": "sls-cloudfunction-default-leekFundFunction-1605522655.zip"
+}

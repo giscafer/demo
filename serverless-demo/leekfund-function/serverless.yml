@@ -1,0 +1,32 @@
+# serverless.yml
+myFunction:
+  component: '@serverless/tencent-scf'
+  inputs:
+    name: leekFundFunction
+    enableRoleAuth: true
+    codeUri: ./code
+    handler: index.main_handler
+    Runtime: Nodejs8.9
+    region: ap-guangzhou
+    description: 本示例主要演示定时拨测 URL 列表中的地址，当拨测失败时，通过邮件发送告警
+    memorySize: 128
+    timeout: 20
+    exclude:
+      - .gitignore
+      - .git/**
+    include:
+      - node_modules
+      - package.json
+    environment:
+      variables:
+        TEST: vale
+    vpcConfig:
+      subnetId: ''
+      vpcId: ''
+    Events: # 配置 alarm 函数的触发器
+      TimeTrigger: # 触发器的名称
+        Type: Timer # 表示该触发器是定时触发器
+        Properties:
+          CronExpression: '5 * * * * *' # 每 1 分钟执行一次
+          Enable: true # 是否启用该定时触发器
+
