@@ -1,8 +1,16 @@
 # demo
-just a demo list
 
+Just a demo list for study
 
 ## Demo List
 
 - puppeteer
 - nodemailer
+- plop
+- react
+- typescript
+  - Design patterns
+- js-snippets
+- css
+- v8
+- serverless
