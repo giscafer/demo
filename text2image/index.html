@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>复制图片粘贴到微信</title>
+  </head>
+  <body>
+    <h3>复制图片粘贴到微信</h3>
+    <div id="result"></div>
+    <script>
+      const pre = 'data:image/png;base64,';
+      const base64Data =
+        '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';
+      const blobInput = convertBase64ToBlob(base64Data, 'image/png');
+      const clipboardItemInput = new ClipboardItem({
+        'image/png': blobInput,
+      });
+      navigator.clipboard.write([clipboardItemInput]);
+      document.querySelector('#result').innerHTML = '复制成功';
+
+      function convertBase64ToBlob(base64, type) {
+        var bytes = window.atob(base64);
+        var ab = new ArrayBuffer(bytes.length);
+        var ia = new Uint8Array(ab);
+        for (var i = 0; i < bytes.length; i++) {
+          ia[i] = bytes.charCodeAt(i);
+        }
+        return new Blob([ab], { type: type });
+      }
+    </script>
+  </body>
+</html>
