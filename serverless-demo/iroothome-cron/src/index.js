@@ -1,7 +1,12 @@
-"use strict";
-const Notification = require("./notification");
+'use strict';
+const Notification = require('./notification');
+const { isHolidayInChina } = require('./utils/index');
 exports.main_handler = async (event, context, callback) => {
-  console.log("%j", event);
-  Notification.sendMsg("19点了，记得填写当日工时哦！");
-  return "hello world";
+  console.log('%j', event);
+  const isHoliday = isHolidayInChina();
+  if (isHoliday) {
+    return '假期';
+  }
+  Notification.sendMsg('温馨提示：记得填写当日工时哦！');
+  return 'hello world';
 };
