@@ -3,7 +3,7 @@ const Notification = require('./notification');
 const { isHolidayInChina } = require('./utils/index');
 exports.main_handler = async (event, context, callback) => {
   console.log('%j', event);
-  const isHoliday = isHolidayInChina();
+  const isHoliday = await isHolidayInChina();
   if (isHoliday) {
     return '假期';
   }
