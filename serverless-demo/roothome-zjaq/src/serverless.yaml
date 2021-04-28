@@ -1,0 +1,27 @@
+component: scf
+name: ap-guangzhou_default_roothome-zjaq
+org: '1253698319'
+app: roothome-zjaq
+stage: dev
+inputs:
+  name: iroothome-cron
+  src: ./src
+  runtime: Nodejs12.16
+  region: ap-guangzhou
+  description: SCF created by Tencent Serverless Toolkit for VS Code
+  handler: index.main_handler
+  memorySize: 128
+  timeout: 3
+  events:
+    - apigw:
+        name: serverless_api
+        parameters:
+          protocols:
+            - http
+            - https
+          description: The service of Serverless Framework
+          environment: release
+          endpoints:
+            - path: /
+              method: GET
+# For more information: https://github.com/serverless-components/tencent-scf/blob/master/docs/configure.md
