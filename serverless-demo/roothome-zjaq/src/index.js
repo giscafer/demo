@@ -15,9 +15,9 @@ const Notification = require('./notification');
 
 // The cmq authentication information
 // 使用 cmq 所需的鉴权/配置信息
-const SECRET_ID = 'AKIDiCTPVsTak2uPhNzQimjlZ0ILDv8aon'; // Replace it with your SecretId , 请替换为您的 SecretId
-const SECRET_KEY = 'xhDLFuLn7sW6wXHzg9MZYLsBLRKzJX'; // Replace it with your SecretKey, 请替换为您的 SecretKey
-const CMQ_TOPIC_NAME = '住建安全后端服务拨测'; // Replace it with your Topic name, 请替换为您的 Topic 名称
+const SECRET_ID = 'AKIDiCTPVsTakxxxZ0ILDv8aon'; // Replace it with your SecretId , 请替换为您的 SecretId
+const SECRET_KEY = 'xhDLFuLn7sxxxgxxxLRKzJX'; // Replace it with your SecretKey, 请替换为您的 SecretKey
+const CMQ_TOPIC_NAME = '服务拨测'; // Replace it with your Topic name, 请替换为您的 Topic 名称
 const CMQ_REGION = 'gz'; // The region of your cmq topic, cmq主题所在地域
 
 // While fails, the email notify list, 拨测失败后，告警邮件需要通知的邮箱列表
@@ -29,17 +29,7 @@ const FROM_ADDR = 'giscafer@outlook.com';
 
 // The test url list
 // 拨测网址列表
-const TEST_URL_LIST = [
-  'http://dapi.bighome360.com/construct-safety-server/api/big-screen/getDeviceDataList',
-  'http://dapi.bighome360.com/construct-safety-server/api/device/machinery/machineryStatistics?areaCode=440000',
-  'http://dapi.bighome360.com/construct-safety-server/api/weather/info/rainfallInfo?parentCode=440000&timeType=12',
-  'http://dapi.bighome360.com/construct-safety-server/api/big-screen/towerWindSpeed?deviceId=1366588335887441920',
-  'http://dapi.bighome360.com/construct-safety-server/api/device/info/towerInfo?id=1366588335887441920',
-  'http://dapi.bighome360.com/construct-safety-server/api/big-screen/getProjectDetail?projectId=1366588330141245440',
-  'http://dapi.bighome360.com/construct-safety-server/api/big-screen/getDeviceDetail?deviceId=1384702522473849278&_t=1619589715917',
-  'http://dapi.bighome360.com/construct-safety-server/api/big-screen/getDeviceDetail?deviceId=1384702522452878728&_t=1619589630586',
-  'http://dapi.bighome360.com/construct-safety-server/api/big-screen/getDeviceDetail?deviceId=1384702522524182310&_t=1619318785913',
-];
+const TEST_URL_LIST = ['http://giscafer.com'];
 
 /**Simple CMQ-SDK */
 function CMQRequestHelper(SecretId, SecretKey) {
@@ -78,7 +68,7 @@ async function testUrl(urlList) {
   let errorInfo = [];
   for (let url of urlList) {
     try {
-      await request({
+      const resp = await request({
         url,
         timeout: 3000,
       });
@@ -91,6 +81,8 @@ async function testUrl(urlList) {
   }
   if (errorInfo.length) {
     Notification.sendMsg(['**服务异常**\n'].concat(errorInfo).join(''));
+  } else {
+    console.log('服务正常');
   }
   return errorInfo;
 }
