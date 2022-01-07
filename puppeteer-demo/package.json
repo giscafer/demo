@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "puppeteer": "^1.14.0"
+    "puppeteer": "^1.14.0",
+    "superagent": "^7.0.0"
   }
 }

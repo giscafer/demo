@@ -40,6 +40,12 @@
 
       new Promise(function (resolve) {
         console.log('promise');
+        new Promise((resolve) => {
+          console.log(' inner promise');
+          setTimeout(function () {
+            resolve();
+          });
+        }).then(() => console.log(' inner resolve'));
         resolve();
       }).then(function () {
         console.log('resolve');
