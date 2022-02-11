@@ -14,4 +14,4 @@ Just a demo list for study
 - css
 - v8
 - serverless
-- root-config 微前端（single-spa）
+- single-root-config 微前端
