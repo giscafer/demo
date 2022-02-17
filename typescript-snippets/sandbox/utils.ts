@@ -1,3 +1,27 @@
+export const nativeGlobal = new Function('return this')();
+
+// Promise.then might be synchronized in Zone.js context, we need to use setTimeout instead to mock next tick.
+const nextTick: (cb: () => void) => void =
+  typeof window.Zone === 'function'
+    ? setTimeout
+    : (cb) => Promise.resolve().then(cb);
+
+let globalTaskPending = false;
+/**
+ * Run a callback before next task executing, and the invocation is idempotent in every singular task
+ * That means even we called nextTask multi times in one task, only the first callback will be pushed to nextTick to be invoked.
+ * @param cb
+ */
+export function nextTask(cb: () => void): void {
+  if (!globalTaskPending) {
+    globalTaskPending = true;
+    nextTick(() => {
+      cb();
+      globalTaskPending = false;
+    });
+  }
+}
+
 const fnRegexCheckCacheMap = new WeakMap<any | FunctionConstructor, boolean>();
 export function isConstructable(fn: () => any | FunctionConstructor) {
   // prototype methods might be changed while code running, so we need check it every time
