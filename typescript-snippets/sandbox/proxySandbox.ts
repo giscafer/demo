@@ -324,7 +324,7 @@ export default class ProxySandbox implements SandBox {
       },
 
       // trap in operator
-      // see https://github.com/styled-components/styled-components/blob/master/packages/styled-components/src/constants.js#L12
+      // see https://github.com/styled-components/styled-components/blob/master/packages/styled-components/src/constants.ts#L12
       has(target: FakeWindow, p: string | number | symbol): boolean {
         return p in unscopables || p in target || p in globalContext;
       },

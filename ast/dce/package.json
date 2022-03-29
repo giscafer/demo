@@ -1,0 +1,14 @@
+{
+  "name": "dce",
+  "version": "1.0.0",
+  "description": "基于 acorn ast 实现一个简易 Tree Shaking 脚本",
+  "main": "1.js",
+  "scripts": {
+    "test": "node treeShaking.js test.js"
+  },
+  "author": "giscafer",
+  "license": "MIT",
+  "dependencies": {
+    "acorn": "^8.7.0"
+  }
+}
