@@ -8,7 +8,6 @@ const fs = require('fs');
 const args = process.argv[2];
 const buffer = fs.readFileSync(args).toString();
 const body = acorn.parse(buffer, { ecmaVersion: 'latest' }).body;
-
 const jsEmitter = new JSEmitter();
 let decls = new Map();
 let calledDecls = [];
@@ -31,6 +30,8 @@ body.forEach((node) => {
         }
       }
     }
+    code.push(jsEmitter.run([node]));
+    return;
   }
   if (node.type === 'VariableDeclaration') {
     const kind = node.kind;
@@ -45,11 +46,9 @@ body.forEach((node) => {
   if (node.type === 'Identifier') {
     calledDecls.push(node.name);
   }
-  code.push(jsEmitter.run([node]));
 });
 
 // 生成code
-
 code = calledDecls
   .map((c) => {
     return decls.get(c);
@@ -57,4 +56,11 @@ code = calledDecls
   .concat([code])
   .join('');
 
-fs.writeFileSync('test.shaked.js', code);
+fs.writeFile('test.shaked.js', code, () => {
+  console.log('success!');
+  console.log('decls====================================');
+  console.log(decls);
+  console.log('calledDecls=================================');
+  console.log(calledDecls);
+  console.log('====================================');
+});

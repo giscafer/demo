@@ -96,7 +96,7 @@ class JSEmitter {
   }
 
   visitReturnStatement(node) {
-    let str = 'return ';
+    let str = '\n return ';
 
     str += this.visitNode(node.argument);
 
