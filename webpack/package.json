@@ -1,0 +1,25 @@
+{
+  "name": "webpack-demo",
+  "version": "1.0.0",
+  "description": "https://github.com/giscafer/demo",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "giscafer",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/core": "^7.17.8",
+    "@babel/parser": "^7.17.8",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/traverse": "^7.17.3",
+    "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21",
+    "resolve": "^1.22.0",
+    "webpack": "^5.70.0"
+  },
+  "devDependencies": {
+    "webpack-cli": "^4.9.2"
+  }
+}
