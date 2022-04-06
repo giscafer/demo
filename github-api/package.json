@@ -1,0 +1,17 @@
+{
+  "name": "github-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "fetchIssue.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "giscafer",
+  "license": "ISC",
+  "dependencies": {
+    "dayjs": "^1.11.0",
+    "fs-extra": "^10.0.1",
+    "github-api": "^3.4.0",
+    "pinyin": "^2.11.1"
+  }
+}
