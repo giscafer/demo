@@ -21,6 +21,7 @@ const add3 = currying((a, b, c) => a + b + c, 3);
 console.log(add3(1, 2, 3));
 console.log(add3(1)(2)(3));
 
+// 不用 bind 方法
 const currying2 = (fn) =>
   (judge = (...args) =>
     args.length >= fn.length

@@ -23,7 +23,9 @@ issueInstance.listIssues({ creator: 'giscafer' }).then(({ data }) => {
 });
 
 function generateMdx(issue) {
-  const { title, labels, created_at, body } = issue;
+  const { title, labels, created_at, body, number } = issue;
+  console.log('id=', number);
+
   return `---
   title: ${title}
   publishedAt: ${dayjs(created_at).format('YYYY-MM-DD HH:mm:ss')}
@@ -32,5 +34,9 @@ function generateMdx(issue) {
 ---
 
 ${body}
+
+---
+欢迎前往原文讨论：https://github.com/giscafer/blog/issues/${number}
+
 `;
 }
