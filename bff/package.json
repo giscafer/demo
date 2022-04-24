@@ -1,0 +1,15 @@
+{
+  "name": "bff",
+  "version": "1.0.0",
+  "description": "BFF 网光是一种逻辑分层，在后端普遍采用的技术背景下，作为适配层更好地为前端服务，而传统业务后端只需要 关注自己的微服务即可。",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fast-gateway": "^3.3.1",
+    "restana": "^4.9.4"
+  }
+}
