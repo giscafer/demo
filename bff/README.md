@@ -42,6 +42,18 @@ BFF 同时也引出一些痛点：
   - 权限控制（比如访问控制 ACL 和 RBAC）
   - 校验设计（比如登录校验、单点登录 SSO）
 
+## 如何设计一个扩展性良好的 BFF 层
+
+- 插件化 （内置或者可插拔多种插件，比如 Logger 等，也可以接受第三方插件）
+- 中间件化 （SSO、限流、熔断等通过中间件形式实现）
+
+`fast-gateway`设计主要从 4 个方面来考虑：
+
+- 基本反代理
+- 中间件
+- 缓存
+- Hooks
+
 ## Demo
 
 - `node ./remote-service.js`
@@ -50,4 +62,7 @@ BFF 同时也引出一些痛点：
 
 ---
 
-https://github.com/BackendStack21/fast-gateway.git
+## 参考资料
+
+- [BackendStack21/fast-gateway](https://github.com/BackendStack21/fast-gateway.git)
+- LucasHC 《实践打造网关：改造企业 BFF 方案》

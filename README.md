@@ -5,6 +5,7 @@ Just a demo list for study
 ## Demo List
 
 - puppeteer
+  - lighthouse
 - nodemailer
 - plop
 - react
@@ -13,5 +14,6 @@ Just a demo list for study
 - js-snippets
 - v8
 - serverless
-- single-root-config 微前端
+- single-root-config
 - ast
+- bff

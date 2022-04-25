@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "chrome-launcher": "^0.15.0",
+    "lighthouse": "^9.5.0",
     "puppeteer": "^1.14.0",
     "superagent": "^7.0.0"
   }
