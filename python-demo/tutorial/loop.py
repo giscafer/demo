@@ -1,4 +1,6 @@
 # loop 条件语句循环
+constellations = ('水瓶座', '双鱼座', '白羊座', '金牛座', '双子座', '巨蟹座', '狮子座',
+                  '处女座', '天秤座', '天蝎座', '射手座', '摩羯座')
 
 chinese_zodiac = '鼠牛虎兔龙蛇马羊猴鸡狗猪'
 # for in
@@ -21,3 +23,8 @@ while True:
         continue
     else:
         break
+
+
+for c in constellations:
+    if (c == '双子座'):
+        print('双子座')
