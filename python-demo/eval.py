@@ -1,0 +1,5 @@
+num1=input("请输入第1个数字")
+num2=input("请输入第2个数字")
+result=op=input("请输入运算符")
+sum=eval(f"{num1}{op}{num2}")
+print(f"计算结果为${sum}")

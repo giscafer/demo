@@ -1,0 +1,6 @@
+print(','.join('abc'))
+print(int(1.6))
+print(type(str(1.6)))
+print("ABC">"ABD")
+print("123.0">"123")
+print(123.0>123)
