@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv=X-UA-Compatible content="IE=Edge,chrome=1">
+    <meta name=force-rendering content="webkit">
+    <meta name=renderer content="webkit">
+    <link rel="shortcut icon" type=image/x-icon href="//cdn-img.taojike.com.cn/a/202003/23/5e7873f7b218e.ico"
+        rel="external nofollow">
+    <title>加载中...</title>
+    <link rel=stylesheet type=text/css href="//yxtg.taojike.com.cn/tg/ddfc/main.css">
+    <style>
+        body {
+            background-color: #000
+        }
+
+        #dom_overlay_container {
+            position: absolute;
+            margin: auto;
+            left: 0;
+            right: 0;
+            z-index: 8
+        }
+
+        #animation_container {
+            width: 1920px;
+            height: 1080px;
+            background-color: transparent;
+            position: absolute;
+            margin: auto;
+            left: 0;
+            right: 0;
+            z-index: 9
+        }
+
+        #animation_container canvas {
+            background-color: transparent
+        }
+
+        #_preload_div__ {
+            width: auto;
+            height: 100%;
+            position: absolute;
+            margin: auto;
+            left: 0;
+            right: 0;
+            z-index: 10;
+            display: none
+        }
+    </style>
+    <!--[if lte IE 9]><style type="text/css">.loginBox.boxFooter.text,.loginBox.boxFooter.third{float:left}.loginBox.boxFooter.text{margin-left:114px}</style><![endif]-->
+</head>
+
+<body>
+    <div class="tgWrap" onclick="showLogin()">
+        <div class=wrap>
+            <div id=dom_overlay_container></div>
+            <div id=animation_container>
+                <canvas id=canvas width=1920 height=920></canvas>
+            </div>
+            <div id=_preload_div__></div>
+        </div>
+    </div>
+    <script src="//cdn-file2.taojike.com.cn/assets/jquery/jquery191.js"></script>
+    <script src="//yxtg.taojike.com.cn/tg/ddfc/main.min.js?_ver=202310191"></script>
+    <script src="//cdn-file2.taojike.com.cn/assets/createjs/createjs.min.js"></script>
+    <script src="//cdn-file2.taojike.com.cn/wan/fc/c22a6e4e/animate/main.js"></script>
+    <script>
+        function createInit(e) {
+            canvas = document.getElementById("canvas"),
+                anim_container = document.getElementById("animation_container"),
+                dom_overlay_container = document.getElementById("dom_overlay_container");
+            var t = AdobeAn.getComposition(e)
+                , a = t.getLibrary();
+            createjs.MotionGuidePlugin.install();
+            var n = new createjs.LoadQueue(!0);
+            n.maintainScriptOrder = !0,
+                n.setMaxConnections(100),
+                n.installPlugin(createjs.Sound),
+                n.addEventListener("fileload", function (e) {
+                    handleFileLoad(e, t)
+                }),
+                n.addEventListener("complete", function (e) {
+                    handleComplete(e, t)
+                });
+            var a = t.getLibrary();
+            n.loadManifest(a.properties.manifest)
+        }
+        function handleFileLoad(e, t) {
+            var a = t.getImages();
+            console.log('images=', a)
+            e && "image" == e.item.type && (a[e.item.id] = e.result)
+        }
+        function handleComplete(e, t) {
+            var a = t.getLibrary()
+                , n = t.getSpriteSheet()
+                , o = e.target
+                , r = a.ssMetadata;
+            console.log(1, a, r)
+            for (i = 0; i < r.length; i++) {
+                console.log(r[i], r[i].name)
+                n[r[i].name] = new createjs.SpriteSheet({
+                    images: [o.getResult(r[i].name)],
+                    frames: r[i].frames
+                });
+            }
+
+            var d = document.getElementById("_preload_div__");
+            dom_overlay_container.style.display = canvas.style.display = "block",
+                exportRoot = new a.main,
+                stage = new a.Stage(canvas),
+                stage.enableMouseOver(),
+                fnStartAnimation = function () {
+                    setTimeout(function () {
+                        d.style.display = "none"
+                    }, 300),
+                        stage.addChild(exportRoot),
+                        createjs.Ticker.framerate = a.properties.fps,
+                        createjs.Ticker.addEventListener("tick", stage)
+                }
+                ,
+                AdobeAn.makeResponsive(!0, "width", !0, 1, [canvas, anim_container, dom_overlay_container]),
+                AdobeAn.compositionLoaded(a.properties.id),
+                fnStartAnimation()
+        }
+        function playSound(e, t, a) {
+            return createjs.Sound.play(e, {
+                interrupt: createjs.Sound.INTERRUPT_EARLY,
+                loop: t,
+                offset: a
+            })
+        }
+        var canvas, stage, exportRoot, anim_container, dom_overlay_container, fnStartAnimation;
+    </script>
+    <script type=text/javascript>
+            var input_channel = "d";
+            var input_from = "d";
+            var xToken = "";
+            var childReady = true;
+            var pageReady = true;
+            var childConfig = {
+                "show_title": "一刀9999亿，刀刀爆神装，满屏光柱！",
+                "channel_id": "blbl_qf_6",
+                "game_id": "wzzx2",
+                "game_name": "王者之心2",
+                "sc_id": "c22a6e4e",
+                "exit_jh_url": "https:\/\/yxtg.taojike.com.cn\/jh\/t3.html?jh_id=qgGXeoGLZ9",
+                "zk_url": "",
+                "box_type": 0,
+                "cert_id": "240124elwj",
+                "ep_id": [],
+                "server_id": 0,
+                "game_icon": "http:\/\/cdn-img.ludashi.com\/a\/202208\/01\/6f4e782f6d04d26a8e7e62cd67aacad2.ico",
+                "hidecharge": 1,
+                "kernel": "cef,ie",
+                "auto_account": 0,
+                "from_id": "middleground",
+                "platform": "4",
+                "cb_type": "",
+                "cb_value": "",
+                "tg_id": "zkJbq7Efy3iQ",
+                "platform_ad_type": 1,
+                "platform_ad_id": "trackid",
+                "sc_lists": []
+            };
+            document.title = childConfig.show_title || '';
+            createInit("DE940C0032C72A499DF3E3DA7458EBDD");
+            $(function() {
+                mainSdk.init()
+            })
+        </script>
+</body>
+<script>
+    var _hmt = _hmt || [];
+    !function () {
+        var e = document.createElement("script");
+        e.src = "//hm.baidu.com/hm.js?0bd99deb4f87764a2c6f514484a00ed3";
+        var t = document.getElementsByTagName("script")[0];
+        t.parentNode.insertBefore(e, t)
+    }();
+</script>
+
+</html>
