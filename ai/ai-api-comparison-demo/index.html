@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>主流AI模型API调用演示</title>
+    <!-- Tailwind CSS v3 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- 统一的 Tailwind 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#10B981',
+                        accent: '#F59E0B',
+                        danger: '#EF4444',
+                        dark: '#1F2937',
+                        light: '#F3F4F6'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .glass-effect {
+                @apply bg-white bg-opacity-20 backdrop-blur-lg;
+            }
+            .card-hover {
+                @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+            }
+            .btn-primary {
+                @apply bg-primary text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors;
+            }
+            .btn-secondary {
+                @apply bg-secondary text-white px-4 py-2 rounded-md hover:bg-green-600 transition-colors;
+            }
+            .btn-accent {
+                @apply bg-accent text-white px-4 py-2 rounded-md hover:bg-amber-600 transition-colors;
+            }
+            .btn-outline {
+                @apply border border-gray-300 px-4 py-2 rounded-md hover:bg-gray-100 transition-colors;
+            }
+            .input-field {
+                @apply border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent;
+            }
+            .code-block {
+                @apply bg-gray-900 text-gray-100 p-4 rounded-md overflow-x-auto font-mono text-sm;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <header class="bg-white shadow-md">
+        <div class="container mx-auto px-4 py-6">
+            <h1 class="text-3xl font-bold text-center text-gray-800">主流AI模型API调用演示</h1>
+            <p class="text-center text-gray-600 mt-2">学习如何调用OpenAI、DeepSeek、通义千问等API</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <!-- API选择卡片 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <!-- OpenAI Card -->
+            <div class="bg-white rounded-xl shadow-md p-6 card-hover border-t-4 border-blue-500">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                        <i class="fa fa-robot text-blue-500 text-2xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold text-gray-800">OpenAI</h2>
+                        <p class="text-gray-500 text-sm">GPT-4o, GPT-4, GPT-3.5</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 mb-4">OpenAI提供了强大的语言模型API，支持文本生成、代码生成、图像生成等多种功能。</p>
+                <div class="flex justify-between items-center">
+                    <span class="text-xs text-gray-500">https://api.openai.com</span>
+                    <button id="openai-btn" class="btn-primary text-sm">选择</button>
+                </div>
+            </div>
+
+            <!-- DeepSeek Card -->
+            <div class="bg-white rounded-xl shadow-md p-6 card-hover border-t-4 border-green-500">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4">
+                        <i class="fa fa-brain text-green-500 text-2xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold text-gray-800">DeepSeek</h2>
+                        <p class="text-gray-500 text-sm">DeepSeek-V3, DeepSeek-Chat</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 mb-4">DeepSeek提供与OpenAI兼容的API，支持中文优化的模型，在数学推理和代码生成方面表现出色。</p>
+                <div class="flex justify-between items-center">
+                    <span class="text-xs text-gray-500">https://api.deepseek.com</span>
+                    <button id="deepseek-btn" class="btn-secondary text-sm">选择</button>
+                </div>
+            </div>
+
+            <!-- 通义千问 Card -->
+            <div class="bg-white rounded-xl shadow-md p-6 card-hover border-t-4 border-amber-500">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center mr-4">
+                        <i class="fa fa-comment text-amber-500 text-2xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold text-gray-800">通义千问</h2>
+                        <p class="text-gray-500 text-sm">Qwen-Plus, Qwen-Max, Qwen-Turbo</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 mb-4">阿里云通义千问提供多种规模的模型，支持中文场景优化，具有良好的性价比和稳定性。</p>
+                <div class="flex justify-between items-center">
+                    <span class="text-xs text-gray-500">https://dashscope.aliyuncs.com</span>
+                    <button id="qwen-btn" class="btn-accent text-sm">选择</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- API调用演示区域 -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <div class="flex flex-col md:flex-row gap-6">
+                <!-- 左侧：API配置和调用 -->
+                <div class="w-full md:w-1/2">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">API调用演示</h2>
+                    
+                    <!-- API选择器 -->
+                    <div class="mb-6">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="api-select">
+                            选择API提供商
+                        </label>
+                        <select id="api-select" class="input-field w-full">
+                            <option value="openai">OpenAI</option>
+                            <option value="deepseek">DeepSeek</option>
+                            <option value="qwen">通义千问</option>
+                        </select>
+                    </div>
+
+                    <!-- API密钥 -->
+                    <div class="mb-6">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="api-key">
+                            API密钥 (API Key)
+                        </label>
+                        <input type="password" id="api-key" class="input-field w-full" placeholder="sk-xxx">
+                        <p class="text-xs text-gray-500 mt-1">请输入您的API密钥，不会被存储</p>
+                    </div>
+
+                    <!-- 模型选择 -->
+                    <div class="mb-6">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="model-select">
+                            选择模型
+                        </label>
+                        <select id="model-select" class="input-field w-full">
+                            <!-- 选项将通过JavaScript动态填充 -->
+                        </select>
+                    </div>
+
+                    <!-- 提示词输入 -->
+                    <div class="mb-6">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="prompt-input">
+                            提示词 (Prompt)
+                        </label>
+                        <textarea id="prompt-input" class="input-field w-full h-32" placeholder="请输入您的提示词..."></textarea>
+                    </div>
+
+                    <!-- 示例提示词 -->
+                    <div class="mb-6">
+                        <p class="text-sm text-gray-600 mb-2">示例提示词：</p>
+                        <div class="flex flex-wrap gap-2">
+                            <button class="example-prompt btn-outline text-xs" data-prompt="写一首关于编程的诗">写一首关于编程的诗</button>
+                            <button class="example-prompt btn-outline text-xs" data-prompt="解释什么是机器学习">解释什么是机器学习</button>
+                            <button class="example-prompt btn-outline text-xs" data-prompt="计算1+2+3+...+100的和">计算1+2+3+...+100的和</button>
+                            <button class="example-prompt btn-outline text-xs" data-prompt="用Python写一个快速排序算法">用Python写一个快速排序算法</button>
+                        </div>
+                    </div>
+
+                    <!-- 调用按钮 -->
+                    <div class="flex justify-end">
+                        <button id="call-api-btn" class="btn-primary">
+                            <i class="fa fa-paper-plane mr-2"></i>调用API
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 右侧：结果展示 -->
+                <div class="w-full md:w-1/2">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">API响应结果</h2>
+                    
+                    <!-- 加载状态 -->
+                    <div id="loading" class="hidden">
+                        <div class="flex items-center justify-center p-8">
+                            <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+                            <span class="ml-3 text-gray-600">API调用中...</span>
+                        </div>
+                    </div>
+
+                    <!-- 错误信息 -->
+                    <div id="error" class="hidden bg-red-50 border border-red-200 rounded-md p-4 mb-4">
+                        <div class="flex">
+                            <i class="fa fa-exclamation-circle text-red-500 mt-1 mr-3"></i>
+                            <div>
+                                <h3 class="text-red-700 font-bold">错误</h3>
+                                <p id="error-message" class="text-red-600"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 响应结果 -->
+                    <div id="response-container" class="hidden">
+                        <div class="mb-4">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">响应内容</h3>
+                            <div id="response-content" class="bg-gray-50 border border-gray-200 rounded-md p-4 min-h-[200px]"></div>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">API调用详情</h3>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="bg-gray-50 border border-gray-200 rounded-md p-3">
+                                    <p class="text-sm text-gray-500">模型</p>
+                                    <p id="used-model" class="font-mono text-sm"></p>
+                                </div>
+                                <div class="bg-gray-50 border border-gray-200 rounded-md p-3">
+                                    <p class="text-sm text-gray-500">响应时间</p>
+                                    <p id="response-time" class="font-mono text-sm"></p>
+                                </div>
+                                <div class="bg-gray-50 border border-gray-200 rounded-md p-3">
+                                    <p class="text-sm text-gray-500">输入Token</p>
+                                    <p id="input-tokens" class="font-mono text-sm"></p>
+                                </div>
+                                <div class="bg-gray-50 border border-gray-200 rounded-md p-3">
+                                    <p class="text-sm text-gray-500">输出Token</p>
+                                    <p id="output-tokens" class="font-mono text-sm"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 初始提示 -->
+                    <div id="initial-prompt" class="bg-gray-50 border border-gray-200 rounded-md p-6 text-center">
+                        <i class="fa fa-info-circle text-gray-400 text-4xl mb-4"></i>
+                        <p class="text-gray-600">请在左侧配置API参数并点击"调用API"按钮</p>
+                        <p class="text-gray-500 text-sm mt-2">API响应结果将显示在这里</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- API调用代码示例 -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">API调用代码示例</h2>
+            
+            <div class="mb-6">
+                <div class="flex border-b border-gray-200">
+                    <button class="code-tab px-4 py-2 font-medium text-sm border-b-2 border-primary text-primary" data-lang="javascript">JavaScript</button>
+                    <button class="code-tab px-4 py-2 font-medium text-sm border-b-2 border-transparent text-gray-500 hover:text-gray-700" data-lang="python">Python</button>
+                    <button class="code-tab px-4 py-2 font-medium text-sm border-b-2 border-transparent text-gray-500 hover:text-gray-700" data-lang="curl">cURL</button>
+                </div>
+            </div>
+            
+            <div class="code-content">
+                <!-- JavaScript代码示例 -->
+                <div id="javascript-code" class="code-block">
+<pre>// OpenAI API调用示例
+import OpenAI from "openai";
+
+const openai = new OpenAI({
+  apiKey: "YOUR_API_KEY",
+});
+
+async function main() {
+  const completion = await openai.chat.completions.create({
+    model: "gpt-4o-mini",
+    messages: [
+      { role: "system", content: "You are a helpful assistant." },
+      { role: "user", content: "Hello!" }
+    ],
+  });
+
+  console.log(completion.choices[0].message.content);
+}
+
+main();</pre>
+                </div>
+                
+                <!-- Python代码示例 -->
+                <div id="python-code" class="code-block hidden">
+<pre># OpenAI API调用示例
+from openai import OpenAI
+
+client = OpenAI(
+  api_key="YOUR_API_KEY",
+)
+
+response = client.chat.completions.create(
+  model="gpt-4o-mini",
+  messages=[
+    {"role": "system", "content": "You are a helpful assistant."},
+    {"role": "user", "content": "Hello!"}
+  ]
+)
+
+print(response.choices[0].message.content)</pre>
+                </div>
+                
+                <!-- cURL代码示例 -->
+                <div id="curl-code" class="code-block hidden">
+<pre># OpenAI API调用示例
+curl https://api.openai.com/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -d '{
+    "model": "gpt-4o-mini",
+    "messages": [
+      {"role": "system", "content": "You are a helpful assistant."},
+      {"role": "user", "content": "Hello!"}
+    ]
+  }'</pre>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h3 class="text-xl font-bold">主流AI模型API调用演示</h3>
+                    <p class="text-gray-400 text-sm">学习如何调用OpenAI、DeepSeek、通义千问等API</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fa fa-github text-2xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fa fa-twitter text-2xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fa fa-linkedin text-2xl"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="mt-6 pt-6 border-t border-gray-700 text-center text-gray-400 text-sm">
+                &copy; 2025 AI API演示. 仅供学习使用.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 模型配置
+        const modelConfigs = {
+            openai: {
+                baseUrl: "https://api.openai.com/v1",
+                models: [
+                    { id: "gpt-4o", name: "GPT-4o" },
+                    { id: "gpt-4o-mini", name: "GPT-4o Mini" },
+                    { id: "gpt-4-turbo", name: "GPT-4 Turbo" },
+                    { id: "gpt-3.5-turbo", name: "GPT-3.5 Turbo" }
+                ],
+                codeExamples: {
+                    javascript: `// OpenAI API调用示例
+import OpenAI from "openai";
+
+const openai = new OpenAI({
+  apiKey: "YOUR_API_KEY",
+});
+
+async function main() {
+  const completion = await openai.chat.completions.create({
+    model: "gpt-4o-mini",
+    messages: [
+      { role: "system", content: "You are a helpful assistant." },
+      { role: "user", content: "Hello!" }
+    ],
+  });
+
+  console.log(completion.choices[0].message.content);
+}
+
+main();`,
+                    python: `# OpenAI API调用示例
+from openai import OpenAI
+
+client = OpenAI(
+  api_key="YOUR_API_KEY",
+)
+
+response = client.chat.completions.create(
+  model="gpt-4o-mini",
+  messages=[
+    {"role": "system", "content": "You are a helpful assistant."},
+    {"role": "user", "content": "Hello!"}
+  ]
+)
+
+print(response.choices[0].message.content)`,
+                    curl: `# OpenAI API调用示例
+curl https://api.openai.com/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -d '{
+    "model": "gpt-4o-mini",
+    "messages": [
+      {"role": "system", "content": "You are a helpful assistant."},
+      {"role": "user", "content": "Hello!"}
+    ]
+  }'`
+                }
+            },
+            deepseek: {
+                baseUrl: "https://api.deepseek.com/v1",
+                models: [
+                    { id: "deepseek-chat", name: "DeepSeek Chat" },
+                    { id: "deepseek-reasoner", name: "DeepSeek Reasoner" },
+                    { id: "deepseek-coder", name: "DeepSeek Coder" }
+                ],
+                codeExamples: {
+                    javascript: `// DeepSeek API调用示例
+import OpenAI from "openai";
+
+const openai = new OpenAI({
+  apiKey: "YOUR_API_KEY",
+  baseURL: "https://api.deepseek.com/v1"
+});
+
+async function main() {
+  const completion = await openai.chat.completions.create({
+    model: "deepseek-chat",
+    messages: [
+      { role: "system", content: "You are a helpful assistant." },
+      { role: "user", content: "Hello!" }
+    ],
+  });
+
+  console.log(completion.choices[0].message.content);
+}
+
+main();`,
+                    python: `# DeepSeek API调用示例
+from openai import OpenAI
+
+client = OpenAI(
+  api_key="YOUR_API_KEY",
+  base_url="https://api.deepseek.com/v1"
+)
+
+response = client.chat.completions.create(
+  model="deepseek-chat",
+  messages=[
+    {"role": "system", "content": "You are a helpful assistant."},
+    {"role": "user", "content": "Hello!"}
+  ]
+)
+
+print(response.choices[0].message.content)`,
+                    curl: `# DeepSeek API调用示例
+curl https://api.deepseek.com/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -d '{
+    "model": "deepseek-chat",
+    "messages": [
+      {"role": "system", "content": "You are a helpful assistant."},
+      {"role": "user", "content": "Hello!"}
+    ]
+  }'`
+                }
+            },
+            qwen: {
+                baseUrl: "https://dashscope.aliyuncs.com/compatible-mode/v1",
+                models: [
+                    { id: "qwen-plus", name: "Qwen Plus" },
+                    { id: "qwen-max", name: "Qwen Max" },
+                    { id: "qwen-turbo", name: "Qwen Turbo" },
+                    { id: "qwen-max-longcontext", name: "Qwen Max Longcontext" }
+                ],
+                codeExamples: {
+                    javascript: `// 通义千问API调用示例
+import OpenAI from "openai";
+
+const openai = new OpenAI({
+  apiKey: "YOUR_API_KEY",
+  baseURL: "https://dashscope.aliyuncs.com/compatible-mode/v1"
+});
+
+async function main() {
+  const completion = await openai.chat.completions.create({
+    model: "qwen-plus",
+    messages: [
+      { role: "system", content: "You are a helpful assistant." },
+      { role: "user", content: "Hello!" }
+    ],
+  });
+
+  console.log(completion.choices[0].message.content);
+}
+
+main();`,
+                    python: `# 通义千问API调用示例
+from openai import OpenAI
+
+client = OpenAI(
+  api_key="YOUR_API_KEY",
+  base_url="https://dashscope.aliyuncs.com/compatible-mode/v1"
+)
+
+response = client.chat.completions.create(
+  model="qwen-plus",
+  messages=[
+    {"role": "system", "content": "You are a helpful assistant."},
+    {"role": "user", "content": "Hello!"}
+  ]
+)
+
+print(response.choices[0].message.content)`,
+                    curl: `# 通义千问API调用示例
+curl https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -d '{
+    "model": "qwen-plus",
+    "messages": [
+      {"role": "system", "content": "You are a helpful assistant."},
+      {"role": "user", "content": "Hello!"}
+    ]
+  }'`
+                }
+            }
+        };
+
+        // DOM元素
+        const apiSelect = document.getElementById('api-select');
+        const modelSelect = document.getElementById('model-select');
+        const apiKeyInput = document.getElementById('api-key');
+        const promptInput = document.getElementById('prompt-input');
+        const callApiBtn = document.getElementById('call-api-btn');
+        const loading = document.getElementById('loading');
+        const error = document.getElementById('error');
+        const errorMessage = document.getElementById('error-message');
+        const responseContainer = document.getElementById('response-container');
+        const responseContent = document.getElementById('response-content');
+        const usedModel = document.getElementById('used-model');
+        const responseTime = document.getElementById('response-time');
+        const inputTokens = document.getElementById('input-tokens');
+        const outputTokens = document.getElementById('output-tokens');
+        const initialPrompt = document.getElementById('initial-prompt');
+        const codeTabs = document.querySelectorAll('.code-tab');
+        const codeContents = document.querySelectorAll('.code-content > div');
+        const examplePrompts = document.querySelectorAll('.example-prompt');
+        const apiCards = {
+            openai: document.getElementById('openai-btn'),
+            deepseek: document.getElementById('deepseek-btn'),
+            qwen: document.getElementById('qwen-btn')
+        };
+
+        // 初始化模型选择
+        function updateModelOptions(api) {
+            const models = modelConfigs[api].models;
+            modelSelect.innerHTML = '';
+            
+            models.forEach(model => {
+                const option = document.createElement('option');
+                option.value = model.id;
+                option.textContent = model.name;
+                modelSelect.appendChild(option);
+            });
+        }
+
+        // 更新代码示例
+        function updateCodeExamples(api, lang = 'javascript') {
+            const examples = modelConfigs[api].codeExamples;
+            
+            document.getElementById(`${lang}-code`).innerHTML = `<pre>${examples[lang]}</pre>`;
+            
+            // 显示选中的语言，隐藏其他
+            codeContents.forEach(content => {
+                content.classList.add('hidden');
+            });
+            document.getElementById(`${lang}-code`).classList.remove('hidden');
+            
+            // 更新标签样式
+            codeTabs.forEach(tab => {
+                if (tab.dataset.lang === lang) {
+                    tab.classList.add('border-primary', 'text-primary');
+                    tab.classList.remove('border-transparent', 'text-gray-500');
+                } else {
+                    tab.classList.remove('border-primary', 'text-primary');
+                    tab.classList.add('border-transparent', 'text-gray-500');
+                }
+            });
+        }
+
+        // API调用函数
+        async function callApi() {
+            const api = apiSelect.value;
+            const model = modelSelect.value;
+            const apiKey = apiKeyInput.value;
+            const prompt = promptInput.value.trim();
+            
+            if (!apiKey) {
+                showError('请输入API密钥');
+                return;
+            }
+            
+            if (!prompt) {
+                showError('请输入提示词');
+                return;
+            }
+            
+            // 显示加载状态
+            showLoading();
+            
+            try {
+                const startTime = performance.now();
+                const response = await fetch(`${modelConfigs[api].baseUrl}/chat/completions`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${apiKey}`
+                    },
+                    body: JSON.stringify({
+                        model: model,
+                        messages: [
+                            { role: 'system', content: 'You are a helpful assistant.' },
+                            { role: 'user', content: prompt }
+                        ],
+                        temperature: 0.7
+                    })
+                });
+                
+                const endTime = performance.now();
+                const duration = ((endTime - startTime) / 1000).toFixed(2);
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error?.message || `API调用失败: ${response.status} ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                const content = data.choices[0].message.content;
+                
+                // 显示结果
+                showResponse({
+                    content: content,
+                    model: model,
+                    responseTime: `${duration}秒`,
+                    inputTokens: data.usage.prompt_tokens,
+                    outputTokens: data.usage.completion_tokens
+                });
+                
+            } catch (err) {
+                showError(err.message);
+            }
+        }
+
+        // 显示加载状态
+        function showLoading() {
+            loading.classList.remove('hidden');
+            error.classList.add('hidden');
+            responseContainer.classList.add('hidden');
+            initialPrompt.classList.add('hidden');
+        }
+
+        // 显示错误信息
+        function showError(message) {
+            loading.classList.add('hidden');
+            error.classList.remove('hidden');
+            responseContainer.classList.add('hidden');
+            initialPrompt.classList.add('hidden');
+            errorMessage.textContent = message;
+        }
+
+        // 显示响应结果
+        function showResponse(data) {
+            loading.classList.add('hidden');
+            error.classList.add('hidden');
+            responseContainer.classList.remove('hidden');
+            initialPrompt.classList.add('hidden');
+            
+            // 格式化响应内容（简单的Markdown支持）
+            let formattedContent = data.content
+                .replace(/### (.*?)\n/g, '<h3 class="text-lg font-semibold mt-4 mb-2">$1</h3>')
+                .replace(/## (.*?)\n/g, '<h2 class="text-xl font-bold mt-5 mb-3">$1</h2>')
+                .replace(/# (.*?)\n/g, '<h1 class="text-2xl font-bold mt-6 mb-4">$1</h1>')
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/`(.*?)`/g, '<code class="bg-gray-100 px-1 py-0.5 rounded text-sm">$1</code>')
+                .replace(/```([\s\S]*?)```/g, '<pre class="bg-gray-100 p-3 rounded-md overflow-x-auto my-3"><code>$1</code></pre>')
+                .replace(/\n/g, '<br>');
+            
+            responseContent.innerHTML = formattedContent;
+            usedModel.textContent = data.model;
+            responseTime.textContent = data.responseTime;
+            inputTokens.textContent = data.inputTokens;
+            outputTokens.textContent = data.outputTokens;
+        }
+
+        // 事件监听器
+        apiSelect.addEventListener('change', function() {
+            const selectedApi = this.value;
+            updateModelOptions(selectedApi);
+            updateCodeExamples(selectedApi, 'javascript');
+            
+            // 更新卡片按钮状态
+            Object.keys(apiCards).forEach(api => {
+                if (api === selectedApi) {
+                    apiCards[api].classList.add('ring-2', 'ring-offset-2');
+                } else {
+                    apiCards[api].classList.remove('ring-2', 'ring-offset-2');
+                }
+            });
+        });
+
+        callApiBtn.addEventListener('click', callApi);
+
+        codeTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const lang = this.dataset.lang;
+                const api = apiSelect.value;
+                
+                // 更新标签样式
+                codeTabs.forEach(t => {
+                    t.classList.remove('border-primary', 'text-primary');
+                    t.classList.add('border-transparent', 'text-gray-500');
+                });
+                this.classList.add('border-primary', 'text-primary');
+                this.classList.remove('border-transparent', 'text-gray-500');
+                
+                // 更新代码示例
+                updateCodeExamples(api, lang);
+            });
+        });
+
+        examplePrompts.forEach(button => {
+            button.addEventListener('click', function() {
+                promptInput.value = this.dataset.prompt;
+            });
+        });
+
+        // API卡片按钮点击事件
+        Object.keys(apiCards).forEach(api => {
+            apiCards[api].addEventListener('click', function() {
+                apiSelect.value = api;
+                apiSelect.dispatchEvent(new Event('change'));
+            });
+        });
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            const defaultApi = 'openai';
+            updateModelOptions(defaultApi);
+            updateCodeExamples(defaultApi, 'javascript');
+            apiCards[defaultApi].classList.add('ring-2', 'ring-offset-2');
+        });
+    </script>
+</body>
+</html>
